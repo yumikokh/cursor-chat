@@ -2,27 +2,11 @@
   <div class="container">
     <div>
       <logo />
-      <h1 class="title">
-        multi-website
-      </h1>
-      <h2 class="subtitle">
-        My dazzling Nuxt.js project
-      </h2>
+      <h1 class="title">multi-website</h1>
+      <h2 class="subtitle">My dazzling Nuxt.js project</h2>
       <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+        <a href="https://nuxtjs.org/" target="_blank" class="button--green">Documentation</a>
+        <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
       </div>
     </div>
   </div>
@@ -34,6 +18,27 @@ import Logo from '~/components/Logo.vue'
 export default {
   components: {
     Logo
+  },
+  mounted() {
+    let startTime = performance.now()
+    let step = 0
+    const exec = () => {
+      console.log(step)
+      step++
+    }
+    const timeKeeper = () => {
+      // 1s以内だったらスキップ
+      if (performance.now() - startTime < 1000) {
+        // requestAnimationFrame(timeKeeper)
+        return
+      }
+      startTime = performance.now(timeKeeper)
+      exec()
+    }
+    window.addEventListener('mousemove', ev => {
+      requestAnimationFrame(timeKeeper)
+      // console.log(ev.clientX, ev.clientY)
+    })
   }
 }
 </script>
