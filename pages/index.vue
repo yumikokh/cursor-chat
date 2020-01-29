@@ -1,13 +1,9 @@
 <template>
   <div class="container">
     <div>
-      <logo />
-      <h1 class="title">multi-website</h1>
-      <h2 class="subtitle">My dazzling Nuxt.js project</h2>
+      <h1 class="title">見えるカーソル</h1>
+      <h2 class="subtitle">左上から自分の名前を変えられます</h2>
       <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
-          >Documentation</a
-        >
         <a
           href="https://github.com/nuxt/nuxt.js"
           target="_blank"
@@ -18,6 +14,18 @@
     </div>
     <div class="name">
       <input type="text" v-model="name" />
+      <div class="name__info">
+        <p>現在の参加者：{{ Object.keys(users || {}).length }} 人</p>
+        <ul>
+          <li
+            v-for="(user, key) in users"
+            :key="key"
+            :class="{ strong: key === userId }"
+          >
+            {{ user.name }}
+          </li>
+        </ul>
+      </div>
     </div>
     <div
       class="cursor"
@@ -45,7 +53,7 @@ export default {
       .toString(36)
       .substr(2, 9),
     name: '',
-    users: ''
+    users: {}
   }),
   mounted() {
     this.name = this.userId
@@ -74,6 +82,9 @@ export default {
     window.addEventListener('beforeunload', () => {
       fb.deleteCursor(this.userId)
     })
+  },
+  beforeDestroy() {
+    fb.deleteCursor(this.userId)
   }
 }
 </script>
@@ -123,6 +134,14 @@ export default {
     font-size: 20px;
     color: #000;
   }
+
+  &__info {
+    text-align: left;
+    margin-top: 20px;
+  }
+}
+.strong {
+  font-weight: bold;
 }
 
 .cursor {
