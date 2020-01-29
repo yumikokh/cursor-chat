@@ -1,7 +1,20 @@
 <template>
   <div class="container">
     <div>
-      <h1 class="title">cursor-chat</h1>
+      <h1 class="title">
+        <span
+          v-for="(s, i) in 'cursor-chat'"
+          :key="i"
+          class="title__text"
+          :class="{
+            selected:
+              (selectedTitleStart <= i && i <= selectedTitleEnd) ||
+              (selectedTitleEnd <= i && i <= selectedTitleStart)
+          }"
+          ref="title"
+          >{{ s }}</span
+        >
+      </h1>
       <h2 class="subtitle">左上から自分の名前を変えられます</h2>
       <logo
         class="logo"
@@ -52,7 +65,9 @@ export default {
       .substr(2, 9),
     name: 'anonymous',
     users: {},
-    isKayacHover: false
+    isKayacHover: false,
+    selectedTitleStart: -1,
+    selectedTitleEnd: -1
   }),
   methods: {
     onKayacMouseOver() {
@@ -119,6 +134,13 @@ export default {
   color: #35495e;
   letter-spacing: 1px;
   margin-bottom: 10px;
+  user-select: none;
+  cursor: text;
+  .selected {
+    background: #4393fc;
+    color: #fff;
+    padding: 16px 0;
+  }
 }
 
 .subtitle {
@@ -164,6 +186,7 @@ export default {
   margin: auto;
   width: 10px;
   height: 10px;
+  pointer-events: none;
 }
 .cursor__name {
   border: 1px solid blue;
@@ -173,6 +196,7 @@ export default {
   bottom: -6px;
   font-size: 10px;
   font-weight: bold;
+  background: rgba(#fff, 0.6);
 }
 
 .furueru {
