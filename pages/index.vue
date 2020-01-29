@@ -11,8 +11,7 @@
               (selectedTitleEnd <= i && i <= selectedTitleStart)
           }"
           ref="title"
-          >{{ s }}</span
-        >
+        >{{ s }}</span>
       </h1>
       <h2 class="subtitle" @mousedown="onSubTitleMouseDown">
         <span
@@ -24,8 +23,7 @@
               (selectedSubTitleEnd <= i && i <= selectedSubTitleStart)
           }"
           ref="subTitle"
-          >{{ s }}</span
-        >
+        >{{ s }}</span>
       </h2>
       <logo
         class="logo"
@@ -43,9 +41,7 @@
             v-for="(user, key) in users"
             :key="key"
             :class="{ strong: key === userId }"
-          >
-            {{ user.name }}
-          </li>
+          >{{ user.name }}</li>
         </ul>
       </div>
     </div>
@@ -258,6 +254,7 @@ export default {
 }
 .cursor__name {
   border: 1px solid blue;
+  width: max-content;
   padding: 0px 2px;
   position: absolute;
   left: 16px;
