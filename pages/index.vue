@@ -19,6 +19,7 @@
     <div
       class="circle"
       v-for="(user, name) in users"
+      v-show="name !== userId"
       :key="name"
       :style="{ transform: 'translate(' + user.x + 'px,' + user.y + 'px)' }"
     >
@@ -42,7 +43,6 @@ export default {
     users: ''
   }),
   mounted() {
-    console.log('mounte')
     const FPS = 20
     let startTime = performance.now()
     const timeKeeper = (x, y) => {
