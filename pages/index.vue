@@ -227,6 +227,7 @@ export default {
   position: fixed;
   top: 20px;
   left: 20px;
+  text-align: left;
   > input {
     border: 2px solid;
     font-weight: bold;
