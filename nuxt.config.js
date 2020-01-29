@@ -1,3 +1,12 @@
+const routerBase =
+  process.env.DEPLOY_ENV === 'GH_PAGES'
+    ? {
+        router: {
+          base: '/multi-cursor/'
+        }
+      }
+    : {}
+
 export default {
   mode: 'spa',
   /*
@@ -54,7 +63,5 @@ export default {
     extend(config, ctx) {}
   },
 
-  generate: {
-    dir: 'docs'
-  }
+  ...routerBase
 }
