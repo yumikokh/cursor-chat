@@ -5,11 +5,10 @@
       <h2 class="subtitle">左上から自分の名前を変えられます</h2>
       <div class="links">
         <a
-          href="https://github.com/nuxt/nuxt.js"
+          href="https://github.com/yumikokh/multi-cursor"
           target="_blank"
           class="button--grey"
-          >GitHub</a
-        >
+        >GitHub</a>
       </div>
     </div>
     <div class="name">
@@ -21,9 +20,7 @@
             v-for="(user, key) in users"
             :key="key"
             :class="{ strong: key === userId }"
-          >
-            {{ user.name }}
-          </li>
+          >{{ user.name }}</li>
         </ul>
       </div>
     </div>
@@ -34,7 +31,7 @@
       :key="key"
       :style="{ transform: 'translate(' + user.x + 'px,' + user.y + 'px)' }"
     >
-      <img src="~/assets/images/default-mac.png" alt="" />
+      <img src="~/assets/images/default-mac.png" alt />
       <div class="cursor__name">{{ user.name }}</div>
     </div>
   </div>

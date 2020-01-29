@@ -1,10 +1,10 @@
-# multi-website
+# multi-cursor
 
 > My dazzling Nuxt.js project
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ npm run install
 
