@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <h1 class="title">
+      <h1 class="title" @mousedown="onTitleMouseDown">
         <span
           v-for="(s, i) in 'cursor-chat'"
           :key="i"
@@ -67,7 +67,9 @@ export default {
     users: {},
     isKayacHover: false,
     selectedTitleStart: -1,
-    selectedTitleEnd: -1
+    selectedTitleEnd: -1,
+    titlePositions: [],
+    isDragging: false
   }),
   methods: {
     onKayacMouseOver() {
@@ -75,34 +77,60 @@ export default {
     },
     onKayacMouseLeave() {
       fb.writeHover('kayac', false)
+    },
+    onTitleMouseDown(ev) {
+      this.isDragging = true
+      const pos = ev.clientX - innerWidth / 2
+      const index = this.checkIndex(this.titlePositions, pos)
+      this.selectedTitleStart = index
+      this.selectedTitleEnd = index
+    },
+    checkIndex(array, num) {
+      let index = 0
+      array.forEach((val, i) => {
+        if (val < num) index = i
+      })
+      return index
     }
   },
   mounted() {
+    this.titlePositions = this.$refs.title.map(
+      el => el.offsetLeft - innerWidth / 2
+    )
     const FPS = 20
     let startTime = performance.now()
     const timeKeeper = (x, y) => {
       // 1s以内だったらスキップ
       if (performance.now() - startTime < 1000 / FPS) {
-        // requestAnimationFrame(timeKeeper)
         return
       }
       startTime = performance.now()
       fb.writeCursorPos(this.userId, this.name, x, y)
     }
-    window.addEventListener('mousemove', ev => {
-      requestAnimationFrame(() =>
-        timeKeeper(ev.clientX - innerWidth / 2, ev.clientY - innerHeight / 2)
-      )
-      // console.log(ev.clientX, ev.clientY)
-    })
-
     fb.listenCursorPos(val => {
       this.users = val
     })
     fb.listenHover(val => {
       this.isKayacHover = val.kayac ? val.kayac.isHover : false
     })
-
+    window.addEventListener('mousemove', ev => {
+      requestAnimationFrame(() =>
+        timeKeeper(ev.clientX - innerWidth / 2, ev.clientY - innerHeight / 2)
+      )
+      if (this.isDragging) {
+        const pos = ev.clientX - innerWidth / 2
+        const index = this.checkIndex(this.titlePositions, pos)
+        this.selectedTitleEnd = index
+      }
+    })
+    window.addEventListener('mousedown', ev => {
+      if (this.isDragging) return
+      this.selectedTitleStart = -1
+      this.selectedTitleEnd = -1
+    })
+    window.addEventListener('mouseup', ev => {
+      this.isDragging = false
+    })
     window.addEventListener('beforeunload', () => {
       fb.deleteCursor(this.userId)
     })
@@ -136,11 +164,11 @@ export default {
   margin-bottom: 10px;
   user-select: none;
   cursor: text;
-  .selected {
-    background: #4393fc;
-    color: #fff;
-    padding: 16px 0;
-  }
+}
+.selected {
+  background: #4393fc;
+  color: #fff;
+  padding: 16px 0;
 }
 
 .subtitle {
