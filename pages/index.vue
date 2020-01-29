@@ -5,7 +5,6 @@
         <span
           v-for="(s, i) in 'cursor-chat'"
           :key="i"
-          class="title__text"
           :class="{
             selected:
               (selectedTitleStart <= i && i <= selectedTitleEnd) ||
@@ -15,7 +14,19 @@
           >{{ s }}</span
         >
       </h1>
-      <h2 class="subtitle">左上から自分の名前を変えられます</h2>
+      <h2 class="subtitle" @mousedown="onSubTitleMouseDown">
+        <span
+          v-for="(s, i) in '左上から自分の名前を変えられます'"
+          :key="i"
+          :class="{
+            selected:
+              (selectedSubTitleStart <= i && i <= selectedSubTitleEnd) ||
+              (selectedSubTitleEnd <= i && i <= selectedSubTitleStart)
+          }"
+          ref="subTitle"
+          >{{ s }}</span
+        >
+      </h2>
       <logo
         class="logo"
         :class="{ furueru: isKayacHover }"
@@ -68,8 +79,12 @@ export default {
     isKayacHover: false,
     selectedTitleStart: -1,
     selectedTitleEnd: -1,
+    selectedSubTitleStart: -1,
+    selectedSubTitleEnd: -1,
     titlePositions: [],
-    isDragging: false
+    subTitlePositions: [],
+    isTitleDragging: false,
+    isSubTitleDragging: false
   }),
   methods: {
     onKayacMouseOver() {
@@ -79,10 +94,16 @@ export default {
       fb.writeHover('kayac', false)
     },
     onTitleMouseDown(ev) {
-      this.isDragging = true
+      this.isTitleDragging = true
       const pos = ev.clientX - innerWidth / 2
       const index = this.checkIndex(this.titlePositions, pos)
       fb.writeTextIndex('title', index, index)
+    },
+    onSubTitleMouseDown(ev) {
+      this.isSubTitleDragging = true
+      const pos = ev.clientX - innerWidth / 2
+      const index = this.checkIndex(this.subTitlePositions, pos)
+      fb.writeTextIndex('subTitle', index, index)
     },
     checkIndex(array, num) {
       let index = 0
@@ -94,6 +115,9 @@ export default {
   },
   mounted() {
     this.titlePositions = this.$refs.title.map(
+      el => el.offsetLeft - innerWidth / 2
+    )
+    this.subTitlePositions = this.$refs.subTitle.map(
       el => el.offsetLeft - innerWidth / 2
     )
     const FPS = 20
@@ -115,23 +139,31 @@ export default {
     fb.listenTextIndex(val => {
       this.selectedTitleStart = val.title ? val.title.startIndex : -1
       this.selectedTitleEnd = val.title ? val.title.endIndex : -1
+      this.selectedSubTitleStart = val.subTitle ? val.subTitle.startIndex : -1
+      this.selectedSubTitleEnd = val.subTitle ? val.subTitle.endIndex : -1
     })
     window.addEventListener('mousemove', ev => {
       requestAnimationFrame(() =>
         timeKeeper(ev.clientX - innerWidth / 2, ev.clientY - innerHeight / 2)
       )
-      if (this.isDragging) {
+      if (this.isTitleDragging) {
         const pos = ev.clientX - innerWidth / 2
         const index = this.checkIndex(this.titlePositions, pos)
         fb.writeTextIndex('title', this.selectedTitleStart, index)
       }
+      if (this.isSubTitleDragging) {
+        const pos = ev.clientX - innerWidth / 2
+        const index = this.checkIndex(this.subTitlePositions, pos)
+        fb.writeTextIndex('subTitle', this.selectedSubTitleStart, index)
+      }
     })
     window.addEventListener('mousedown', ev => {
-      if (this.isDragging) return
+      if (this.isTitleDragging || this.isSubTitleDragging) return
       fb.writeTextIndex('title', -1, -1)
+      fb.writeTextIndex('subTitle', -1, -1)
     })
     window.addEventListener('mouseup', ev => {
-      this.isDragging = false
+      this.isTitleDragging = this.isSubTitleDragging = false
     })
     window.addEventListener('beforeunload', () => {
       fb.deleteCursor(this.userId)
@@ -179,6 +211,8 @@ export default {
   color: #526488;
   word-spacing: 5px;
   padding-bottom: 15px;
+  user-select: none;
+  cursor: text;
 }
 
 .logo {
