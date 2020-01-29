@@ -1,7 +1,7 @@
 {
-  "name": "multi-cursor",
+  "name": "cursor-chat",
   "version": "1.0.0",
-  "description": "My dazzling Nuxt.js project",
+  "description": "You can see someone's act beyond browser window.",
   "author": "kokubu-yumiko",
   "private": true,
   "scripts": {

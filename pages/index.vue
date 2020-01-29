@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <h1 class="title">見えるカーソル</h1>
+      <h1 class="title">cursor-chat</h1>
       <h2 class="subtitle">左上から自分の名前を変えられます</h2>
       <logo
         class="logo"

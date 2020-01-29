@@ -2,7 +2,7 @@ const routerBase =
   process.env.DEPLOY_ENV === 'GH_PAGES'
     ? {
         router: {
-          base: '/multi-cursor/'
+          base: '/cursor-chat/'
         }
       }
     : {}

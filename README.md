@@ -1,6 +1,6 @@
-# multi-cursor
+# cursor-chat
 
-> My dazzling Nuxt.js project
+> You can see someone's act beyond browser window.
 
 ## Build Setup
 
