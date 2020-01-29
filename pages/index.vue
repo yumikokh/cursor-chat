@@ -82,8 +82,7 @@ export default {
       this.isDragging = true
       const pos = ev.clientX - innerWidth / 2
       const index = this.checkIndex(this.titlePositions, pos)
-      this.selectedTitleStart = index
-      this.selectedTitleEnd = index
+      fb.writeTextIndex('title', index, index)
     },
     checkIndex(array, num) {
       let index = 0
@@ -113,6 +112,10 @@ export default {
     fb.listenHover(val => {
       this.isKayacHover = val.kayac ? val.kayac.isHover : false
     })
+    fb.listenTextIndex(val => {
+      this.selectedTitleStart = val.title ? val.title.startIndex : -1
+      this.selectedTitleEnd = val.title ? val.title.endIndex : -1
+    })
     window.addEventListener('mousemove', ev => {
       requestAnimationFrame(() =>
         timeKeeper(ev.clientX - innerWidth / 2, ev.clientY - innerHeight / 2)
@@ -120,13 +123,12 @@ export default {
       if (this.isDragging) {
         const pos = ev.clientX - innerWidth / 2
         const index = this.checkIndex(this.titlePositions, pos)
-        this.selectedTitleEnd = index
+        fb.writeTextIndex('title', this.selectedTitleStart, index)
       }
     })
     window.addEventListener('mousedown', ev => {
       if (this.isDragging) return
-      this.selectedTitleStart = -1
-      this.selectedTitleEnd = -1
+      fb.writeTextIndex('title', -1, -1)
     })
     window.addEventListener('mouseup', ev => {
       this.isDragging = false
