@@ -158,9 +158,12 @@ export default {
       }
     })
     window.addEventListener('mousedown', ev => {
-      if (this.isTitleDragging || this.isSubTitleDragging) return
-      fb.writeTextIndex('title', -1, -1)
-      fb.writeTextIndex('subTitle', -1, -1)
+      if (!this.isTitleDragging) {
+        fb.writeTextIndex('title', -1, -1)
+      }
+      if (!this.isSubTitleDragging) {
+        fb.writeTextIndex('subTitle', -1, -1)
+      }
     })
     window.addEventListener('mouseup', ev => {
       this.isTitleDragging = this.isSubTitleDragging = false
