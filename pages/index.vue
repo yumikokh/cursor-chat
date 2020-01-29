@@ -3,14 +3,12 @@
     <div>
       <h1 class="title">見えるカーソル</h1>
       <h2 class="subtitle">左上から自分の名前を変えられます</h2>
-      <div class="links">
-        <a
-          href="https://github.com/yumikokh/multi-cursor"
-          target="_blank"
-          class="button--grey"
-          >GitHub</a
-        >
-      </div>
+      <logo
+        class="logo"
+        :class="{ furueru: isKayacHover }"
+        @mouseover.native="onKayacMouseOver"
+        @mouseleave.native="onKayacMouseLeave"
+      />
     </div>
     <div class="name">
       <input type="text" v-model="name" />
@@ -53,8 +51,17 @@ export default {
       .toString(36)
       .substr(2, 9),
     name: 'anonymous',
-    users: {}
+    users: {},
+    isKayacHover: false
   }),
+  methods: {
+    onKayacMouseOver() {
+      fb.writeHover('kayac', true)
+    },
+    onKayacMouseLeave() {
+      fb.writeHover('kayac', false)
+    }
+  },
   mounted() {
     const FPS = 20
     let startTime = performance.now()
@@ -76,6 +83,9 @@ export default {
 
     fb.listenCursorPos(val => {
       this.users = val
+    })
+    fb.listenHover(val => {
+      this.isKayacHover = val.kayac ? val.kayac.isHover : false
     })
 
     window.addEventListener('beforeunload', () => {
@@ -108,18 +118,20 @@ export default {
   font-size: 100px;
   color: #35495e;
   letter-spacing: 1px;
+  margin-bottom: 10px;
 }
 
 .subtitle {
   font-weight: 300;
-  font-size: 42px;
+  font-size: 24px;
   color: #526488;
   word-spacing: 5px;
   padding-bottom: 15px;
 }
 
-.links {
-  padding-top: 15px;
+.logo {
+  margin-top: 20px;
+  cursor: pointer;
 }
 
 .name {
@@ -161,5 +173,18 @@ export default {
   bottom: -6px;
   font-size: 10px;
   font-weight: bold;
+}
+
+.furueru {
+  animation: furueru infinite alternate ease-in-out 0.05s;
+}
+
+@keyframes furueru {
+  0% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(3deg);
+  }
 }
 </style>
