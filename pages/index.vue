@@ -21,7 +21,9 @@
       v-for="(user, name) in users"
       :key="name"
       :style="{ transform: 'translate(' + user.x + 'px,' + user.y + 'px)' }"
-    ></div>
+    >
+      <img src="~/assets/images/default-mac.png" alt="" />
+    </div>
   </div>
 </template>
 
@@ -94,10 +96,6 @@ export default {
 }
 
 .circle {
-  width: 10px;
-  height: 10px;
-  background: red;
-  border-radius: 100%;
   position: fixed;
   left: 0;
   top: 0;
