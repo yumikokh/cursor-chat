@@ -36,12 +36,15 @@ export default {
     Logo
   },
   data: () => ({
+    userId: Math.random()
+      .toString(36)
+      .substr(2, 9),
     users: ''
   }),
   mounted() {
+    console.log('mounte')
     const FPS = 20
     let startTime = performance.now()
-    const userId = 'yumiko'
     const timeKeeper = (x, y) => {
       // 1s以内だったらスキップ
       if (performance.now() - startTime < 1000 / FPS) {
@@ -49,7 +52,7 @@ export default {
         return
       }
       startTime = performance.now()
-      fb.writeCursorPos(userId, x, y)
+      fb.writeCursorPos(this.userId, x, y)
     }
     window.addEventListener('mousemove', ev => {
       requestAnimationFrame(() => timeKeeper(ev.clientX, ev.clientY))
@@ -58,6 +61,10 @@ export default {
 
     fb.listenCursorPos(val => {
       this.users = val
+    })
+
+    window.addEventListener('beforeunload', () => {
+      fb.deleteCursor(this.userId)
     })
   }
 }
