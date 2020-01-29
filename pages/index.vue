@@ -17,13 +17,14 @@
       </div>
     </div>
     <div
-      class="circle"
+      class="cursor"
       v-for="(user, name) in users"
       v-show="name !== userId"
       :key="name"
       :style="{ transform: 'translate(' + user.x + 'px,' + user.y + 'px)' }"
     >
       <img src="~/assets/images/default-mac.png" alt="" />
+      <div class="cursor__name">{{ name }}</div>
     </div>
   </div>
 </template>
@@ -70,7 +71,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .container {
   margin: 0 auto;
   min-height: 100vh;
@@ -102,9 +103,18 @@ export default {
   padding-top: 15px;
 }
 
-.circle {
+.cursor {
   position: fixed;
   left: 0;
   top: 0;
+}
+.cursor__name {
+  border: 1px solid blue;
+  padding: 0px 2px;
+  position: absolute;
+  left: 16px;
+  bottom: -6px;
+  font-size: 10px;
+  font-weight: bold;
 }
 </style>
