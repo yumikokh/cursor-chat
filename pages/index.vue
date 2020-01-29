@@ -61,7 +61,9 @@ export default {
       fb.writeCursorPos(this.userId, this.name, x, y)
     }
     window.addEventListener('mousemove', ev => {
-      requestAnimationFrame(() => timeKeeper(ev.clientX, ev.clientY))
+      requestAnimationFrame(() =>
+        timeKeeper(ev.clientX - innerWidth / 2, ev.clientY - innerHeight / 2)
+      )
       // console.log(ev.clientX, ev.clientY)
     })
 
@@ -80,6 +82,8 @@ export default {
 .container {
   margin: 0 auto;
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -117,13 +121,19 @@ export default {
     font-weight: bold;
     padding: 0 3px;
     font-size: 20px;
+    color: #000;
   }
 }
 
 .cursor {
-  position: fixed;
+  position: absolute;
   left: 0;
+  right: 0;
+  bottom: 0;
   top: 0;
+  margin: auto;
+  width: 10px;
+  height: 10px;
 }
 .cursor__name {
   border: 1px solid blue;
