@@ -16,15 +16,18 @@
         >
       </div>
     </div>
+    <div class="name">
+      <input type="text" v-model="name" />
+    </div>
     <div
       class="cursor"
-      v-for="(user, name) in users"
-      v-show="name !== userId"
-      :key="name"
+      v-for="(user, key) in users"
+      v-show="key !== userId"
+      :key="key"
       :style="{ transform: 'translate(' + user.x + 'px,' + user.y + 'px)' }"
     >
       <img src="~/assets/images/default-mac.png" alt="" />
-      <div class="cursor__name">{{ name }}</div>
+      <div class="cursor__name">{{ user.name }}</div>
     </div>
   </div>
 </template>
@@ -41,9 +44,11 @@ export default {
     userId: Math.random()
       .toString(36)
       .substr(2, 9),
+    name: '',
     users: ''
   }),
   mounted() {
+    this.name = this.userId
     const FPS = 20
     let startTime = performance.now()
     const timeKeeper = (x, y) => {
@@ -53,7 +58,7 @@ export default {
         return
       }
       startTime = performance.now()
-      fb.writeCursorPos(this.userId, x, y)
+      fb.writeCursorPos(this.userId, this.name, x, y)
     }
     window.addEventListener('mousemove', ev => {
       requestAnimationFrame(() => timeKeeper(ev.clientX, ev.clientY))
@@ -101,6 +106,18 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+
+.name {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  > input {
+    border: 2px solid;
+    font-weight: bold;
+    padding: 0 3px;
+    font-size: 20px;
+  }
 }
 
 .cursor {
