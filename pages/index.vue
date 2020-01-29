@@ -8,7 +8,8 @@
           href="https://github.com/yumikokh/multi-cursor"
           target="_blank"
           class="button--grey"
-        >GitHub</a>
+          >GitHub</a
+        >
       </div>
     </div>
     <div class="name">
@@ -20,7 +21,9 @@
             v-for="(user, key) in users"
             :key="key"
             :class="{ strong: key === userId }"
-          >{{ user.name }}</li>
+          >
+            {{ user.name }}
+          </li>
         </ul>
       </div>
     </div>
@@ -49,11 +52,10 @@ export default {
     userId: Math.random()
       .toString(36)
       .substr(2, 9),
-    name: '',
+    name: 'anonymous',
     users: {}
   }),
   mounted() {
-    this.name = this.userId
     const FPS = 20
     let startTime = performance.now()
     const timeKeeper = (x, y) => {
