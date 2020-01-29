@@ -5,39 +5,57 @@
       <h1 class="title">multi-website</h1>
       <h2 class="subtitle">My dazzling Nuxt.js project</h2>
       <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">Documentation</a>
-        <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
+        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
+          >Documentation</a
+        >
+        <a
+          href="https://github.com/nuxt/nuxt.js"
+          target="_blank"
+          class="button--grey"
+          >GitHub</a
+        >
       </div>
     </div>
+    <div
+      class="circle"
+      v-for="(user, name) in users"
+      :key="name"
+      :style="{ transform: 'translate(' + user.x + 'px,' + user.y + 'px)' }"
+    ></div>
   </div>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
+import * as fb from '~/lib/firebase'
 
 export default {
   components: {
     Logo
   },
+  data: () => ({
+    users: ''
+  }),
   mounted() {
+    const FPS = 20
     let startTime = performance.now()
-    let step = 0
-    const exec = () => {
-      console.log(step)
-      step++
-    }
-    const timeKeeper = () => {
+    const userId = 'yumiko'
+    const timeKeeper = (x, y) => {
       // 1s以内だったらスキップ
-      if (performance.now() - startTime < 1000) {
+      if (performance.now() - startTime < 1000 / FPS) {
         // requestAnimationFrame(timeKeeper)
         return
       }
-      startTime = performance.now(timeKeeper)
-      exec()
+      startTime = performance.now()
+      fb.writeCursorPos(userId, x, y)
     }
     window.addEventListener('mousemove', ev => {
-      requestAnimationFrame(timeKeeper)
+      requestAnimationFrame(() => timeKeeper(ev.clientX, ev.clientY))
       // console.log(ev.clientX, ev.clientY)
+    })
+
+    fb.listenCursorPos(val => {
+      this.users = val
     })
   }
 }
@@ -73,5 +91,15 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 </style>
