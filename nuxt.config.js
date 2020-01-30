@@ -40,20 +40,20 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: [
-    [
-      '@nuxtjs/google-analytics',
-      {
-        id: 'UA-157179351-1'
-      }
-    ]
-  ],
+  buildModules: [],
   /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    [
+      '@nuxtjs/google-gtag',
+      {
+        id: 'UA-157179351-1',
+        debug: true
+      }
+    ]
   ],
   /*
    ** Axios module configuration

@@ -62,7 +62,12 @@
 
     <div class="author">
       created by
-      <a href="https://twitter.com/yumikokh" target="_blank">@yumikokh</a>
+      <a
+        href="https://twitter.com/yumikokh"
+        target="_blank"
+        @click="gaEvent('author')"
+        >@yumikokh</a
+      >
     </div>
   </div>
 </template>
@@ -116,6 +121,11 @@ export default {
         if (val < num) index = i
       })
       return index
+    },
+    gaEvent(type) {
+      this.$gtag('event', 'click', {
+        event_category: type
+      })
     }
   },
   mounted() {
