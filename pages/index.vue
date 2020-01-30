@@ -256,9 +256,9 @@ export default {
   border: 1px solid blue;
   width: max-content;
   padding: 0px 2px;
-  position: absolute;
-  left: 16px;
-  bottom: -6px;
+  position: relative;
+  left: 18px;
+  bottom: 9px;
   font-size: 10px;
   font-weight: bold;
   background: rgba(#fff, 0.6);
