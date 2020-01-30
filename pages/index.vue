@@ -59,6 +59,11 @@
       <img src="~/assets/images/default-mac.png" alt />
       <div class="cursor__name">{{ user.name }}</div>
     </div>
+
+    <div class="author">
+      created by
+      <a href="https://twitter.com/yumikokh" target="_blank">@yumikokh</a>
+    </div>
   </div>
 </template>
 
@@ -280,5 +285,11 @@ export default {
   100% {
     transform: rotate(3deg);
   }
+}
+
+.author {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
 }
 </style>
