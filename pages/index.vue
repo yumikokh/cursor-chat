@@ -27,9 +27,9 @@
       </h2>
       <logo
         class="logo"
-        :class="{ furueru: isKayacHover }"
-        @mouseover.native="onKayacMouseOver"
-        @mouseleave.native="onKayacMouseLeave"
+        :class="{ furueru: isGkbrHover }"
+        @mouseover.native="onGkbrMouseOver"
+        @mouseleave.native="onGkbrMouseLeave"
       />
     </div>
     <div class="name">
@@ -72,7 +72,7 @@ export default {
       .substr(2, 9),
     name: 'anonymous',
     users: {},
-    isKayacHover: false,
+    isGkbrHover: false,
     selectedTitleStart: -1,
     selectedTitleEnd: -1,
     selectedSubTitleStart: -1,
@@ -83,11 +83,11 @@ export default {
     isSubTitleDragging: false
   }),
   methods: {
-    onKayacMouseOver() {
-      fb.writeHover('kayac', true)
+    onGkbrMouseOver() {
+      fb.writeHover('gkbr', true)
     },
-    onKayacMouseLeave() {
-      fb.writeHover('kayac', false)
+    onGkbrMouseLeave() {
+      fb.writeHover('gkbr', false)
     },
     onTitleMouseDown(ev) {
       this.isTitleDragging = true
@@ -130,7 +130,7 @@ export default {
       this.users = val
     })
     fb.listenHover(val => {
-      this.isKayacHover = val.kayac ? val.kayac.isHover : false
+      this.isGkbrHover = val.gkbr ? val.gkbr.isHover : false
     })
     fb.listenTextIndex(val => {
       this.selectedTitleStart = val.title ? val.title.startIndex : -1
