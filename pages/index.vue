@@ -116,7 +116,7 @@ export default {
     this.subTitlePositions = this.$refs.subTitle.map(
       el => el.offsetLeft - innerWidth / 2
     )
-    const FPS = 20
+    const FPS = 30
     let startTime = performance.now()
     const timeKeeper = (x, y) => {
       // 1s以内だったらスキップ
