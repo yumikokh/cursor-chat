@@ -51,7 +51,10 @@ export default {
       '@nuxtjs/google-gtag',
       {
         id: 'UA-157179351-1',
-        debug: true
+        debug: false,
+        config: {
+          send_page_view: false
+        }
       }
     ]
   ],
