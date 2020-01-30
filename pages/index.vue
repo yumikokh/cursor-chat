@@ -11,7 +11,8 @@
               (selectedTitleEnd <= i && i <= selectedTitleStart)
           }"
           ref="title"
-        >{{ s }}</span>
+          >{{ s }}</span
+        >
       </h1>
       <h2 class="subtitle" @mousedown="onSubTitleMouseDown">
         <span
@@ -23,7 +24,8 @@
               (selectedSubTitleEnd <= i && i <= selectedSubTitleStart)
           }"
           ref="subTitle"
-        >{{ s }}</span>
+          >{{ s }}</span
+        >
       </h2>
       <logo
         class="logo"
@@ -41,7 +43,9 @@
             v-for="(user, key) in users"
             :key="key"
             :class="{ strong: key === userId }"
-          >{{ user.name }}</li>
+          >
+            {{ user.name }}
+          </li>
         </ul>
       </div>
     </div>
@@ -194,7 +198,8 @@ export default {
   font-size: 100px;
   color: #35495e;
   letter-spacing: 1px;
-  margin-bottom: 10px;
+  line-height: 1;
+  margin-bottom: 40px;
   user-select: none;
   cursor: text;
 }
@@ -206,7 +211,7 @@ export default {
 
 .subtitle {
   font-weight: 300;
-  font-size: 24px;
+  font-size: 22px;
   color: #526488;
   word-spacing: 5px;
   padding-bottom: 15px;
